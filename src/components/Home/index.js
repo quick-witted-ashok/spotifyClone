@@ -52,7 +52,7 @@ class Home extends Component {
       this.setState({
         featuredList: updatedData,
         apiStatus: apiStatusConstants.success,
-        api: updatedData[0].href,
+        api: updatedData[0].tracks,
       });
       console.log(fetchedData);
     } else if (response.status === 401) {
@@ -91,28 +91,34 @@ class Home extends Component {
     </div>
   );
 
-  //   getLists = async () => {
-  //     const { api } = this.state;
-  //     const jwtToken = Cookies.get("jwt_token");
+  getLists = async () => {
+    const { api } = this.state;
+    // eslint-disable-next-line
+    const jwtToken = Cookies.get("jwt_token");
 
-  //     const options = {
-  //       headers: {
-  //         Authorization: `Bearer ${jwtToken}`,
-  //       },
-  //       method: "GET",
-  //     };
+    const options = {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwicm9sZSI6IlBSSU1FX1VTRVIiLCJpYXQiOjE2MjMwNjU1MzJ9.D13s5wN3Oh59aa_qtXMo3Ec4wojOx0EZh8Xr5C5sRkU`,
+      },
+      method: "GET",
+    };
 
-  //     const apiData = await fetch(api, options);
+    const apiData = await fetch(api, options);
+    if (apiData.ok === true) {
+      console.log("SUCCESS");
+    } else {
+      console.log("ERROR");
+    }
 
-  //     const listData = await apiData.json();
+    const listData = await apiData.json();
 
-  //     console.log(listData);
-  //     console.log("ASHOk");
-  //     return listData;
-  //   };
+    console.log(listData);
+    console.log("ASHOk");
+    return listData;
+  };
 
   render() {
-    // this.getLists();
+    this.getLists();
     const { apiStatus } = this.state;
     switch (apiStatus) {
       case apiStatusConstants.success:
